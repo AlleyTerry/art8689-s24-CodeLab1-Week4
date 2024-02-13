@@ -10,14 +10,11 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    private int score = 0;
-
-    private const string FILE_DIR = "/DATA";
-    private const string FILE_DATA = "highScores.txt";
-    private string FILE_FULL_PATH;
+    public int score; 
     
-    //list of all our high scores
-    List<int> highScores;
+    const string FILE_DIR = "/DATA/";
+    const string DATA_FILE = "highScores.txt";
+    string FILE_FULL_PATH;
 
     public int Score
     {
@@ -43,7 +40,7 @@ public class GameManager : MonoBehaviour
                         break;
                     }
                 }
-                highScores.Insert(highScoreSlot,score);
+                highScores.Insert(highScoreSlot, score);
                 // only 5 scores recorded
                 highScores = highScores.GetRange(0, 5);
 
@@ -60,13 +57,16 @@ public class GameManager : MonoBehaviour
                 
                 File.WriteAllText(FILE_FULL_PATH, highScoresString);
                 
+                
             }
             
         }
     }
-
-    private string highScoresString = "";
     
+    string highScoresString = "";
+    
+    //list of all our high scores
+    List<int> highScores;
     
     //property to make the highScore list
     public List<int> HighScores
@@ -78,11 +78,11 @@ public class GameManager : MonoBehaviour
                 highScores = new List<int>();
                 
                 //taking the high score values we have saves
-                highScoresString = File.ReadAllText((FILE_FULL_PATH));
+                highScoresString = File.ReadAllText(FILE_FULL_PATH);
 
                 highScoresString = highScoresString.Trim();
                 
-                //splits it up based off of a chracter of our choosing
+                //splits it up based off of a character of our choosing
                 string[] highScoreArray = highScoresString.Split("\n");
                 
                 //go through the array turn each string into a number
@@ -123,7 +123,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //FILE_FULL_PATH = Application.dataPath
+        FILE_FULL_PATH = Application.dataPath + FILE_DIR + DATA_FILE;
+        
     }
 
     // Update is called once per frame
@@ -136,7 +137,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            display.text = "GAME OVER " + "\nFINAL SCORE: " + score + "\nHighScores:\n " + highScoresString;
+            display.text = "GAME OVER\nFINAL SCORE: " + score + "\nHigh Scores:\n " + highScoresString;
         }
         timer += Time.deltaTime;
 
@@ -150,7 +151,6 @@ public class GameManager : MonoBehaviour
     //
     bool isHighScore(int score)
     {
-
         for (int i = 0; i < HighScores.Count; i++)
         {
             if (highScores[i] < score)
@@ -161,6 +161,4 @@ public class GameManager : MonoBehaviour
 
         return false;
     }
-    
-    
 }

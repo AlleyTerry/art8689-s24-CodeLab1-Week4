@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad70874a20b8e2d46aee6db2c9368ebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 0
   display: {fileID: 1204894752}
   timer: 0
   maxTime: 10
@@ -451,7 +452,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -637.3136, w: -624.6297}
+  m_margin: {x: 0, y: 0, z: -637.3136, w: -114.14575}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
