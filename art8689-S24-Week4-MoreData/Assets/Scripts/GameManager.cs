@@ -9,15 +9,22 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    //making it a singleton
     public static GameManager instance;
     public int score; 
     
+    //creates a file path script variables
+    //the folder where the txt file will be
     const string FILE_DIR = "/DATA/";
+    //the file itself
     const string DATA_FILE = "highScores.txt";
+    //this is dependent on the operating system
     string FILE_FULL_PATH;
 
+    //Score property
     public int Score
     {
+        // gets value from lowercase score
         get
         {
             return score;
@@ -26,10 +33,13 @@ public class GameManager : MonoBehaviour
         set
         {
             score = value;
+            
+            //check if the current score is a high score
+            //decides where to put it in our high score list
             if (isHighScore(score))
             {
                 
-                //replaced
+                //replaced so it includes 0
                 int highScoreSlot = -1;
                 //loop through the HighScores list
                 for (int i = 0; i < HighScores.Count; i++)
@@ -40,6 +50,7 @@ public class GameManager : MonoBehaviour
                         break;
                     }
                 }
+                //puts it in the list
                 highScores.Insert(highScoreSlot, score);
                 // only 5 scores recorded
                 highScores = highScores.GetRange(0, 5);
@@ -54,7 +65,12 @@ public class GameManager : MonoBehaviour
                 }
 
                 highScoresString = scoreBoardText;
-                
+                //check to see if the directory exists:
+                if (!Directory.Exists(Application.dataPath + FILE_DIR))
+                {
+                    Directory.CreateDirectory(Application.dataPath + FILE_DIR);
+                }
+                // write the scores to the txt file
                 File.WriteAllText(FILE_FULL_PATH, highScoresString);
                 
                 
@@ -63,7 +79,8 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    string highScoresString = "";
+    //declare an empty string where the hs txt will go
+    private string highScoresString = "";
     
     //list of all our high scores
     List<int> highScores;
@@ -73,24 +90,36 @@ public class GameManager : MonoBehaviour
     {
         get
         {
+            //if empty...
             if (highScores == null)
             {
+                //make a new list
                 highScores = new List<int>();
-                
+                //had to initialize a list in order to get the text file to exist
+                //so now I'm commenting these out
+                highScores.Add(0);
+                highScores.Insert(0,3);
+                highScores.Insert(1,2);
+                highScores.Insert(2,1);
                 //taking the high score values we have saves
-                highScoresString = File.ReadAllText(FILE_FULL_PATH);
 
-                highScoresString = highScoresString.Trim();
-                
-                //splits it up based off of a character of our choosing
-                string[] highScoreArray = highScoresString.Split("\n");
-                
-                //go through the array turn each string into a number
-                for (int i = 0; i < highScoreArray.Length; i++)
+                if (File.Exists((FILE_FULL_PATH)))
                 {
-                    int currentScore = Int32.Parse(highScoreArray[i]);
-                    highScores.Add(currentScore);
+                    highScoresString = File.ReadAllText(FILE_FULL_PATH);
+
+                    highScoresString = highScoresString.Trim();
+                
+                    //splits it up based off of a character of our choosing
+                    string[] highScoreArray = highScoresString.Split("\n");
+                
+                    //go through the array turn each string into a number
+                    for (int i = 0; i < highScoreArray.Length; i++)
+                    {
+                        int currentScore = Int32.Parse(highScoreArray[i]);
+                        highScores.Add(currentScore);
+                    }
                 }
+              
             }
 
             return highScores;
