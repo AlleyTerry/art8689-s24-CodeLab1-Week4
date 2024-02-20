@@ -38,7 +38,8 @@ public class GameManager : MonoBehaviour
             //decides where to put it in our high score list
             if (isHighScore(score))
             {
-                
+                //everytime the score is greater than the previous high score it will add all of those numbers.
+                //instead it should only check the score after the game is finished
                 //replaced so it includes 0
                 int highScoreSlot = -1;
                 //loop through the HighScores list
