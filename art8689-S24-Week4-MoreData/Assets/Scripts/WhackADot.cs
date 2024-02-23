@@ -9,7 +9,7 @@ public class WhackADot : MonoBehaviour
     void OnMouseDown()
     {
         //transform.position = new Vector2(Random.Range(-5, 5), Random.Range(-5, 5));
-        GameManager.instance.Score++;
+        NEW_GAME_MANAGER.instance.Score++;
         
     }
 }
